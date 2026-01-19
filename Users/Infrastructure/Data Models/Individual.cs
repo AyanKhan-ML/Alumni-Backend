@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Users.Infrastructure.Data_Models
 {
-    internal record Individuals
+    public record Individuals
     {
         [Key]
         public int Individual_ID { get; init; }
@@ -42,11 +42,11 @@ namespace Users.Infrastructure.Data_Models
         public int? Status_ID { get; set; }
         public string? Status_Value { get; set; }
 
-        public virtual ICollection<Individual_Academics> Academics { get; set; }
+        public virtual ICollection<Individual_Academics> Academic_Details { get; set; }
 
     }
 
-    internal class Individual_Academics
+    public class Individual_Academics
     {
         [Key]
         public int Individual_Academic_ID { get; set; }

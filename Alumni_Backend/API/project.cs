@@ -1,12 +1,13 @@
 ﻿
-using Admin.Application.Handlers;
-using Admin.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Project.Application.Handlers;
-using Project.Application.DTO;
+using Microsoft.IdentityModel.Tokens;
+using Entity_Directories.Services.DTO;
+using Entity_Directories.Services;
+
+
 
 namespace Admin.Controllers
 
@@ -19,37 +20,62 @@ namespace Admin.Controllers
     public class ProjectController : Controller
 
     {
-        private DirectoryHandler _handler;
+        private ProjectService _handler;
 
 
-        public ProjectController(DirectoryHandler handler)
+        public ProjectController(ProjectService handler)
         {
             _handler = handler;
         }
 
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProject(string id)
+        {
+            if (id.IsNullOrEmpty())
+            {
+                return BadRequest(new { message = "Project Academic ID is null or empty" });
+            }
+            var response = await _handler.GetProject(id);
+            return Ok(response);
+        }
 
 
 
-        // POST: AuthController/Create
         [HttpGet]
 
         public async Task<ActionResult> GetProjects([FromQuery] ProjectFilters filters , int _page, int _size)
         {
-            try
-            {
+            
                 var response = await _handler.GetProjectsPaginated(filters, _page, _size);
                 return Ok(response);
-            }
-            catch (Exception)
-            {
-
-
-                return StatusCode(500, new { message = "A database error occurred while processing your request" });
-            }
+            
+            
         }
 
-        
+        //[HttpPost("create")]
+        //public async Task<ActionResult> Create([FromBody] CreateProjectDTO newProject)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+
+        //    int createdId = await _handler.CreateProject(newProject);
+        //    var response = new
+        //    {
+        //        Status = "Success",
+        //        Message = "User successfully created.",
+        //        UserId = createdId
+        //    };
+
+        //    return Ok(response);
+
+
+        //}
+
+
 
 
 

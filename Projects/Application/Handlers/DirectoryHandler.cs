@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Project.Infrastructure.Repository;
 using Project.Application.Abstractions;
 using Microsoft.EntityFrameworkCore;
+
 namespace Project.Application.Handlers
 {
     public class DirectoryHandler
@@ -21,21 +22,31 @@ namespace Project.Application.Handlers
 
         public async Task<List<projectDTO>> GetProjectsPaginated(ProjectFilters filters, int _page, int _limit)
         {
-            try
-            {
-                var projects = await _projectService.getProjects(filters)
-                 .Skip((_page - 1) * _limit)
-                 .Take(_limit)
-                 .ToListAsync();
+
+            var projects = await _projectService.getProjects(filters)
+             .Skip((_page - 1) * _limit)
+             .Take(_limit)
+             .ToListAsync();
 
 
-                return projects;
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error occured while fetching Projects table");
-            }
+            return projects;
+
         }
+
+        public async Task<projectDTO?> GetProject(string projectAcademicID)
+        {
+
+            return await _projectService.getProjectsByAcademicID(projectAcademicID);
+        }
+
+        //public async Task<int> CreateProject(CreateProjectDTO newProject)
+        //{
+
+        //}
+
+
+        //}
 
     }
 }
+

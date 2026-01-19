@@ -46,9 +46,9 @@ namespace Project.Infrastructure.Data_Models
         [MaxLength(200)]
         public string? Project_Category { get; set; }
 
-        public bool? Is_Mentored { get; set; }
+        public bool? Is_Mentored { get; set; } = false;
 
-        public bool? Is_Sponsored { get; set; }
+        public bool? Is_Sponsored { get; set; } = false;
 
         public int? Progress_ID { get; set; }
 

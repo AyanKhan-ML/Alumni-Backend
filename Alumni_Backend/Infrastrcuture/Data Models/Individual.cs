@@ -1,26 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Admin.Infrastructure.Data_Models
+namespace Alumni_Portal.Infrastructure.Data_Models
 {
     public record Individuals
     {
         [Key]
-        public  int Individual_ID { get; init; }
+        public int Individual_ID { get; init; }
         public required string Individual_Institution_ID { get; init; }
-        public  int? Client_ID { get; init; }
-        public  string? Client_Reference_Key { get; init; }
-        public  int? Campus_ID { get; init; }
-        public  string? Campus_Reference_Key { get; init; }
-        public  int? Individual_Type_Id { get; init; }
+        public int? Client_ID { get; init; }
+        public string? Client_Reference_Key { get; init; }
+        public int? Campus_ID { get; init; }
+        public string? Campus_Reference_Key { get; init; }
+        public int? Individual_Type_Id { get; init; }
         public required string Individual_Type_Value { get; init; }
-        
-       
+
+
         public required string Individual_Name { get; init; }
         public string? Individual_Email { get; init; }
         public string? Individual_Contact_Number_Primary { get; init; }
         public string? Individual_Contact_Number_Secondary { get; init; }
-        
-        
+
+
         public required bool Individual_Is_Alumni { get; init; }
 
 
@@ -37,7 +42,7 @@ namespace Admin.Infrastructure.Data_Models
         public int? Status_ID { get; set; }
         public string? Status_Value { get; set; }
 
-        public virtual ICollection<Individual_Academics> Academics { get; set; }
+        public virtual ICollection<Individual_Academics> Academic_Details { get; set; }
 
     }
 
@@ -69,7 +74,6 @@ namespace Admin.Infrastructure.Data_Models
         public int? Status_ID { get; set; }
         public string? Status_Value { get; set; }
 
-        
-    }
 
+    }
 }

@@ -23,7 +23,7 @@ namespace Shared.Infrastrcuture
 
         public DbSet<Parameters> Parameters;
         public DbSet<Parameter_Values> Parameter_Values;
-
+        public DbSet<Project_Individuals_Map> Project_Individuals_Map;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

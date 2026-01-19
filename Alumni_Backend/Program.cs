@@ -1,21 +1,15 @@
 
-using Admin.Application.Abstractions;
-using Admin.Application.Handlers;
-using Admin.Application.Services;
-using Admin.Infrastructure.Data;
-using Admin.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using Microsoft.Extensions.Configuration;
 using Project.Infrastructure;
 using Shared.Auth;
-using Shared.Infrastrcuture;
 using Shared.TenantService;
 using Shared.Custom_Exceptions;
 using Users.Infrastructure;
-using Microsoft.Extensions.Configuration;
 using Alumni_Portal.Exceptions;
+using Alumni_Portal.Entity_Directories;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
 
 
 
@@ -42,6 +36,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddUsersInfrastructure(builder.Configuration);
 builder.Services.AddProjectsInfrastructure(builder.Configuration);
+builder.Services.AddEntityDirectoriesInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 

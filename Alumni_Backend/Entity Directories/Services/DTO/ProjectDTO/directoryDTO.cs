@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Application.DTO
+
+namespace Entity_Directories.Services.DTO
 {
     public record projectDTO
     {

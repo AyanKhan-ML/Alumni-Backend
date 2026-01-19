@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Shared.TenantService;
-using Users.Infrastructure.Data_Models;
+using Alumni_Portal.Infrastructure.Data_Models;
 
-namespace Users.Infrastructure.Persistance
+namespace Alumni_Portal.Infrastructure.Persistance
 {
-    internal class AppDbContext : DbContext
+    public class IndividualDbContext : DbContext
     {
         private readonly ITenantService _tenantService;
-        public AppDbContext(
-            DbContextOptions<AppDbContext> options,
+        public IndividualDbContext(
+            DbContextOptions<IndividualDbContext> options,
             ITenantService tenantService
         ) : base(options)
         {

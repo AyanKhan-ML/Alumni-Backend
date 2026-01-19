@@ -10,5 +10,6 @@ namespace Project.Application.Abstractions
     public interface IProjectDirectory
     {
         public IQueryable<projectDTO> getProjects(ProjectFilters filters);
+        public Task<projectDTO?> getProjectsByAcademicID(string projectAcademicID);
     }
 }

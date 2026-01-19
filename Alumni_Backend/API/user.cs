@@ -1,13 +1,10 @@
-﻿
-using Admin.Application.Handlers;
-using Admin.Application.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Users.Application.Handlers;
-using Users.Application.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Entity_Directories.Services.DTO;
+using Alumni_Portal.Infrastructure.Data_Models;
+using Entity_Directories.Services;
+
+
 
 namespace Admin.Controllers
 
@@ -20,42 +17,51 @@ namespace Admin.Controllers
     public class UserController : Controller
 
     {
-        //private userHandler _handler;
-        private DirectoryHandler _userDirectory;
-        public UserController( DirectoryHandler userDirectory)
+
+        private UserService _userDirectory;
+        public UserController( UserService userDirectory)
         {
-            //_handler = handler;
             _userDirectory = userDirectory;
         }
 
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(string id)
+        {
+            var response = await _userDirectory.GetUser(id);
+            if (response == null)
+            {
+                return NotFound(new {message="No user found with this Institution ID"});
+            }
+            return Ok(response);
+        }
 
 
-        
-        // POST: AuthController/Create
+       
         [HttpGet]
 
         public async Task<ActionResult> getUsers([FromQuery] string type, int _page, int _size)
         {
             
                 var response = await _userDirectory.GetUsersPaginated(type, _page, _size);
-                return Ok(response);
+                
+                 return Ok(response);
             
             
         }
 
+
         [HttpPost("create")]
         [Consumes("application/json")]
 
-        public async Task<IActionResult> create([FromBody] NewUserDTO newUser, [FromQuery] string type)
+        public async Task<IActionResult> create([FromBody] Individuals newUser, [FromQuery] string type)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
-            {
+            
                 int createdId= await _userDirectory.CreateUser(newUser);
                 var response = new 
                 {
@@ -65,12 +71,9 @@ namespace Admin.Controllers
                 };
 
                 return Ok(response);
-            }
+            
 
-            catch (Exception)
-            {
-                return StatusCode(500, new { message = "An error occurred while processing your request" });
-            }
+            
         }
 
         
