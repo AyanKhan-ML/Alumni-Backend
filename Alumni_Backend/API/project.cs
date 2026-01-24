@@ -1,11 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Entity_Directories.Services.DTO;
 using Entity_Directories.Services;
+
+
 
 
 
@@ -53,28 +51,51 @@ namespace Admin.Controllers
             
         }
 
-        //[HttpPost("create")]
-        //public async Task<ActionResult> Create([FromBody] CreateProjectDTO newProject)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpPost("create")]
+        public async Task<ActionResult> Create([FromBody] CreateProjectDTO newProject)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
 
-        //    int createdId = await _handler.CreateProject(newProject);
-        //    var response = new
-        //    {
-        //        Status = "Success",
-        //        Message = "User successfully created.",
-        //        UserId = createdId
-        //    };
+            int createdId = await _handler.CreateProject(newProject);
+            
+            var response = new
+            {
+                Status = "Success",
+                Message = "Project successfully created.",
+                Project_ID = createdId,
+                accessUrl=$"/api/Admin/projects/{newProject.Project_Academic_ID}"
+            };
 
-        //    return Ok(response);
+            return Ok(response);
 
 
-        //}
+        }
+        [HttpPost("create/members/{projectId}")]
 
+        public async Task<IActionResult> AddProjectMembers(List<ProjectIndividualDTO> members, string projectId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _handler.AddProjectMembers(projectId,members);
+
+            var response = new
+            {
+                status = "Successful",
+                message = $"Members added to Project {projectId}",
+            };
+
+
+            return Ok(response);
+        }
+
+        
 
 
 

@@ -8,6 +8,7 @@ using Alumni_Portal.Infrastructure.Persistence;
 using Entity_Directories.Services.Abstractions;
 using Entity_Directories.Repositories;
 using Entity_Directories.Services;
+using Alumni_Portal.Entity_Directories.Repositories;
 namespace Alumni_Portal.Entity_Directories
 {
     public static class DependencyInjection
@@ -31,6 +32,7 @@ namespace Alumni_Portal.Entity_Directories
 
             services.AddScoped<UserService>();
             services.AddScoped<ProjectService>();
+            services.AddScoped<SharedRepository>();
             return services;
             }
         }

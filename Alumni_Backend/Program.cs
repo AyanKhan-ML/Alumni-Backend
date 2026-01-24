@@ -1,4 +1,4 @@
-
+using System.Text.Json;
 using Project.Infrastructure;
 using Shared.Auth;
 using Shared.TenantService;
@@ -6,14 +6,15 @@ using Shared.Custom_Exceptions;
 using Users.Infrastructure;
 using Alumni_Portal.Exceptions;
 using Alumni_Portal.Entity_Directories;
+using Alumni_Portal.TenantConfiguration;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
-
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddJwtAuthentication(builder.Configuration);
@@ -37,6 +38,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddUsersInfrastructure(builder.Configuration);
 builder.Services.AddProjectsInfrastructure(builder.Configuration);
 builder.Services.AddEntityDirectoriesInfrastructure(builder.Configuration);
+builder.Services.AddTenantConfigurationInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 

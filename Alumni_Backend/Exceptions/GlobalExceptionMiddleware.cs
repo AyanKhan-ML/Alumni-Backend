@@ -29,10 +29,11 @@ namespace Alumni_Portal.Exceptions
                 ProblemDetails = new ProblemDetails
                 {
                     Type = exception.GetType().ToString(),
-                    Title = "An unexpected error occurred.",
+                    Title = "An unexpected error occured.",
                     Status=StatusCodes.Status500InternalServerError,
                     Detail = exception.Message,
                     Instance= httpcontext.Request.Path
+                    
                 }
 
 

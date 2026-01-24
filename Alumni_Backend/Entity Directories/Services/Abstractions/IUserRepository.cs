@@ -8,7 +8,7 @@ namespace Entity_Directories.Services.Abstractions
         {
             public IQueryable<userDirectoryDTO> GetUsers(string type);
             public Task<userDirectoryDTO?> GetUserByInstitutionID(string individualInstitutionID);
-            public Task<int> Create(Individuals newUser);
+            public Task<int> Create(NewUserDTO newUser);
 
         }
     }

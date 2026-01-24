@@ -35,8 +35,9 @@ namespace Entity_Directories.Services
 
 
         }
+        
 
-        public async Task<int> CreateUser(Individuals newUser)
+        public async Task<int> CreateUser(NewUserDTO newUser)
         {
 
             int id = await _userRepo.Create(newUser);
@@ -44,6 +45,8 @@ namespace Entity_Directories.Services
             return id;
         }
 
+
+        
 
 
 

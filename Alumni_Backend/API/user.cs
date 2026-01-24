@@ -54,7 +54,7 @@ namespace Admin.Controllers
         [HttpPost("create")]
         [Consumes("application/json")]
 
-        public async Task<IActionResult> create([FromBody] Individuals newUser, [FromQuery] string type)
+        public async Task<IActionResult> create([FromBody] NewUserDTO newUser)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +67,8 @@ namespace Admin.Controllers
                 {
                     Status = "Success",
                     Message = "User successfully created.",
-                    UserId = createdId
+                    UserId = createdId,
+                    accessUrl=$"/api/Admin/users/{newUser.Individual_Institution_ID}"
                 };
 
                 return Ok(response);

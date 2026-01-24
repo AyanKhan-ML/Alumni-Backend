@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Alumni_Portal.Infrastrcuture.Data_Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 
 namespace Alumni_Portal.Infrastructure.Data_Models;
 
@@ -44,7 +42,7 @@ public class Projects
     public int Project_Year { get; set; }
 
     [MaxLength(200)]
-    public string? Project_Category { get; set; }
+    public string Project_Industries { get; set; }
 
     public bool? Is_Mentored { get; set; } = false;
 
@@ -76,4 +74,10 @@ public class Projects
 
     [Column(TypeName = "datetime2(7)")]
     public DateTime? Updated_Date { get; set; }
+
+    public virtual ICollection<Project_Individuals> Project_Individuals { get; set; } = new List<Project_Individuals>();
+
+    public virtual ICollection<Project_Industry> Project_Industry { get; set; }= new List<Project_Industry>();
 }
+
+

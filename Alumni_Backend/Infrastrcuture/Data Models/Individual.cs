@@ -42,7 +42,7 @@ namespace Alumni_Portal.Infrastructure.Data_Models
         public int? Status_ID { get; set; }
         public string? Status_Value { get; set; }
 
-        public virtual ICollection<Individual_Academics> Academic_Details { get; set; }
+        public virtual ICollection<Individual_Academics>? Academic_Details { get; set; }
 
     }
 

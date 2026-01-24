@@ -22,7 +22,7 @@ namespace Entity_Directories.Repositories
 
         public Task<userDirectoryDTO?> GetUserByInstitutionID(string individualInstitutionID)
         {
-            return _context.Individuals
+            return _context.Individuals   
                   .AsNoTracking()
                   .Where(i => i.Individual_Institution_ID == individualInstitutionID)
                   .Select(UserMappings.AlumniMapping())
@@ -48,13 +48,15 @@ namespace Entity_Directories.Repositories
             };
         }
 
-        public async Task<int> Create(Individuals newUser)
+        public async Task<int> Create(NewUserDTO newUser)
         {
             try
+
             {
-                _context.Individuals.Add(newUser);
+                var user= UserMappings.NewUserMapping().Compile().Invoke(newUser);
+                _context.Individuals.Add(user);
                 await _context.SaveChangesAsync();
-                return newUser.Individual_ID;
+                return user.Individual_ID;
                 
             }
             catch (DbUpdateException ex)
@@ -62,5 +64,7 @@ namespace Entity_Directories.Repositories
                 throw new Exception("An error occurred while creating the individual.", ex);
             }
         }
+
+
     }
 }
