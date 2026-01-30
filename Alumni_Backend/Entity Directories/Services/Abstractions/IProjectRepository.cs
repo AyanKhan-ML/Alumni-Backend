@@ -11,6 +11,8 @@ namespace Entity_Directories.Services.Abstractions
             public Task<projectDTO?> getProjectsByAcademicID(string projectAcademicID);
 
             public  Task<int> CreateAsync(Projects project);
+
+        public Task<List<int>> DeleteBulkAsync(List<int> ids);
         }
     }
 

@@ -9,6 +9,7 @@ namespace Entity_Directories.Services.DTO
 {
     public record projectDTO
     {
+        public int Project_ID { get; init; }
         public required string Project_Academic_ID { get; set; }
         public required string Project_Name { get; init; }
 

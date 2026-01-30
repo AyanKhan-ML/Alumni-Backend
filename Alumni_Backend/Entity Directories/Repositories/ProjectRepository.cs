@@ -29,6 +29,7 @@ namespace Entity_Directories.Repositories
         {
             return p => new projectDTO
             {
+                Project_ID=p.Project_ID,
                 Project_Academic_ID = p.Project_Academic_ID,
                 Project_Name = p.Project_Name,
                 Project_Category = p.Project_Industries ?? "N/A",
@@ -98,9 +99,38 @@ namespace Entity_Directories.Repositories
 
 
 
+        
+            public async Task<List<int>> DeleteBulkAsync(List<int> projectIds)
+            {
+                
+                var failedDeletes = new List<int>();
+
+            foreach (var projectId in projectIds)
+                {
+                    try
+                    {
+                        await _context.Projects
+                            .Where(p => p.Project_ID == projectId)
+                            .ExecuteDeleteAsync();
+
+                        
+                    }
+                    catch (Exception ex)
+
+                    {
+                    throw new Exception(ex.Message);
+                        failedDeletes.Add(projectId);
+                    }
+                }
+
+               return failedDeletes;
+            }
+        
+    
+    }
 
 
     }
-}
+
 
     

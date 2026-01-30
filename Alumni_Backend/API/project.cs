@@ -98,9 +98,32 @@ namespace Admin.Controllers
             return Ok(response);
         }
 
-        
 
 
+        [HttpDelete("delete")]
+
+        public async Task<IActionResult> DeleteProjects([FromBody] List<int> projectIds)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Console.WriteLine(projectIds == null ? "IDS IS NULL" : $"IDS COUNT: {projectIds.Count}");
+
+            List<int> failedDeletes=await _handler.DeleteProjectsBulk(projectIds);
+
+            var response = new {
+              
+                failedDeletes=failedDeletes
+            };
+
+
+            return Ok(response);
+            
+            
+
+
+        }
 
 
     }
