@@ -2,16 +2,21 @@
 using Entity_Directories.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Alumni_Portal.Infrastructure.Data_Models;
+using Alumni_Portal.Entity_Directories.Repositories;
+using Shared.Custom_Exceptions.ExceptionClasses;
 namespace Entity_Directories.Services
 {
     public class UserService
     {
 
         private IUserRepository _userRepo;
+        private SharedRepository _sharedRepo;
 
-        public UserService(IUserRepository userRepo)
+        public UserService(IUserRepository userRepo, SharedRepository sharedRepo)
         {
             _userRepo = userRepo;
+            _sharedRepo = sharedRepo;
+
         }
 
         public async Task<userDirectoryDTO?> GetUser(string individualInstitutionID)
@@ -20,19 +25,33 @@ namespace Entity_Directories.Services
             
         }
 
-        public async Task<List<userDirectoryDTO>> GetUsersPaginated(string type, int _page, int _limit)
+        public async Task<PaginatedResult<userDirectoryDTO>> GetUsersPaginated(string type, int _page, int _limit)
         {
+            if (_page > 0 && _limit > 0) {
+
+                var query =  _userRepo.GetUsers(type);
+                var totalCount = await _sharedRepo.CountAsync(query);
+
+                var users = await query.
+                    Skip((_page - 1) * _limit)
+                    .Take(_limit)
+                    .ToListAsync();
 
 
-            var users = await _userRepo.GetUsers(type)
-             .Skip((_page - 1) * _limit)
-             .Take(_limit)
-             .ToListAsync();
+                return new PaginatedResult<userDirectoryDTO>
+                {
+                    data = users,
+                    totalRecords = totalCount,
+                    _page = _page,
+                    _size = _limit
+
+                };
 
 
-            return users;
 
+            }
 
+            throw new ValidationException("Page and Limit must be greater than 0");
 
         }
         
@@ -46,9 +65,15 @@ namespace Entity_Directories.Services
         }
 
 
-        
 
 
+        public async Task<List<int>> DeleteUsersBulk(List<int> individualIDs)
+        {
+
+
+            return await _userRepo.DeleteBulkAsync(individualIDs);
+
+        }
 
 
 

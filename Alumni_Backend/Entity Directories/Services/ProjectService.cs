@@ -46,8 +46,8 @@ namespace Entity_Directories.Services
 
                 return new PaginatedResult<projectDTO>
                 {
-                    Data = projects,
-                    TotalRecords = count,
+                    data = projects,
+                    totalRecords = count,
                     _page = _page,
                     _size = _limit
 

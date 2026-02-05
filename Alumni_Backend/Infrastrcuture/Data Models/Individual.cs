@@ -65,7 +65,7 @@ namespace Alumni_Portal.Infrastructure.Data_Models
         public string? Individual_Academic_Department_Value { get; set; }
 
 
-
+        public int Individual_Academic_Designation_ID { get;  }
         public string? Individual_Academic_Designation { get; set; }
 
         public int? Progress_ID { get; set; }

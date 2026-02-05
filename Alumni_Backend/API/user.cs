@@ -77,7 +77,37 @@ namespace Admin.Controllers
             
         }
 
-        
+
+        [HttpDelete("delete")]
+
+        public async Task<IActionResult> DeleteUsers([FromBody] List<int> individualIds)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Console.WriteLine(individualIds == null ? "IDS IS NULL" : $"IDS COUNT: {individualIds.Count}");
+            if (individualIds == null)
+            {
+                return BadRequest(new{  message="No ids to delete"});
+            }
+            List<int> failedDeletes = await _userDirectory.DeleteUsersBulk(individualIds);
+
+            var response = new
+            {
+
+                failedDeletes = failedDeletes
+            };
+
+
+            return Ok(response);
+
+
+
+
+        }
+
+
 
     }
 

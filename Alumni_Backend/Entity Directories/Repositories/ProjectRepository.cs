@@ -1,16 +1,17 @@
 ﻿
-using System;
-using System.Linq.Expressions;
-using Entity_Directories.Services.Abstractions;
-using Microsoft.EntityFrameworkCore;
-using Entity_Directories.Services.DTO;
+using Alumni_Portal.Infrastrcuture.Data_Models;
 using Alumni_Portal.Infrastructure.Data_Models;
+using Alumni_Portal.Infrastructure.Persistance;
 using Alumni_Portal.Infrastructure.Persistence;
 using Entity_Directories.Repositories.MappingExpressions;
-using System.Threading.Tasks;
+using Entity_Directories.Services.Abstractions;
+using Entity_Directories.Services.DTO;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Shared.Custom_Exceptions.ExceptionClasses;
-using Alumni_Portal.Infrastructure.Persistance;
-using Alumni_Portal.Infrastrcuture.Data_Models;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Entity_Directories.Repositories
 {
@@ -99,34 +100,70 @@ namespace Entity_Directories.Repositories
 
 
 
-        
-            public async Task<List<int>> DeleteBulkAsync(List<int> projectIds)
+
+        //public async Task<List<int>> DeleteBulkAsync(List<int> projectIds)
+        //{
+
+        //    var failedDeletes = new List<int>();
+
+        //foreach (var projectId in projectIds)
+        //    {
+        //        try
+        //        {
+        //            await _context.Projects
+        //                .Where(p => p.Project_ID == projectId)
+        //                .ExecuteDeleteAsync();
+
+
+        //        }
+        //        catch (Exception ex)
+
+        //        {
+
+        //            failedDeletes.Add(projectId);
+        //        }
+        //    }
+
+        //   return failedDeletes;
+        //}
+
+        public async Task<List<int>> DeleteBulkAsync(List<int> projectIds)
+        {
+            
+
+            try
             {
-                
-                var failedDeletes = new List<int>();
+                // Build parameterized query
+                var parameters = projectIds.Select((id, index) =>
+                    new SqlParameter($"@p{index}", id)
+                ).ToArray();
 
-            foreach (var projectId in projectIds)
-                {
-                    try
-                    {
-                        await _context.Projects
-                            .Where(p => p.Project_ID == projectId)
-                            .ExecuteDeleteAsync();
+                var parameterNames = string.Join(",",
+                    parameters.Select(p => p.ParameterName)
+                );
 
-                        
-                    }
-                    catch (Exception ex)
+                // Delete and get successfully deleted IDs
+                var deletedIds = await _context.Database
+                    .SqlQueryRaw<int>(
+                        $@"DELETE FROM Projects
+                   OUTPUT DELETED.Project_ID
+                   WHERE Project_ID IN ({parameterNames})",
+                        parameters
+                    )
+                    .ToListAsync();
 
-                    {
-                    throw new Exception(ex.Message);
-                        failedDeletes.Add(projectId);
-                    }
-                }
+               
+                var failedIds = projectIds.Except(deletedIds).ToList();
 
-               return failedDeletes;
+                return failedIds;
             }
-        
-    
+            catch (Exception)
+            {
+                // If the entire delete fails, all IDs failed
+                return projectIds;
+            }
+        }
+
     }
 
 

@@ -31,7 +31,11 @@ builder.Services.AddCors(options =>
 });
 
 
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Keeps original casing
+    });
 
 //builder.Services.AddScoped<userHandler>();
 //builder.Services.AddScoped<projectHandler>();

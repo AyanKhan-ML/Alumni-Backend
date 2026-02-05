@@ -11,6 +11,10 @@ namespace Entity_Directories.Services.DTO
     public record userDirectoryDTO
     {
 
+        public int Individual_ID { get; set; }
+
+        public string? Individual_Academic_ID { get; set; }
+
        
         public required string Individual_Name { get; set; }
 
@@ -40,29 +44,29 @@ namespace Entity_Directories.Services.DTO
     {
 
         
-        public int Program_ID { get; init; }
-        public string Program { get; set; }
+      
+        public string? Program { get; set; }
 
 
         
-        public string? Student_ID { get; init; }
+       
 
 
         
-        public string? Batch { get; init; }
+        //public string? Batch { get; init; }
 
 
-        public int? Enrollment_Year { get; init; }
+        //public int? Enrollment_Year { get; init; }
 
 
         public int? Graduation_Year { get; init; }
 
 
-        public int Department_ID { get; init; }
+      
         public string? Department { get; init; }
 
 
-
+      
         public string? Designation { get; init; }
     }
 
